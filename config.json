@@ -1,0 +1,14 @@
+{
+  "company": "JP Morgan",
+  "positions": "Vice President, Director",
+  "num_rows": 20,
+  "country": "United States",
+  "rebuild_db": false,
+  "sender_name": "Justin Varghese",
+  "sender_title": "EXL Service",
+  "scraper_deployment": "gpt-4.1-mini",
+  "strategy_deployment": "gpt-4.1",
+  "drafter_deployment": "gpt-4.1",
+  "judge_deployment": "gpt-4.1",
+  "retrieval_n_results": 3
+}

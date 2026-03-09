@@ -1,0 +1,9 @@
+pandas
+requests
+openai
+langchain
+langchain-openai
+langgraph
+chromadb
+tiktoken
+python-dotenv
