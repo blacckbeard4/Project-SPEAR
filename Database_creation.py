@@ -21,7 +21,7 @@ CASE_STUDY_DIR   = "./Raw_casestudies/"
 CHROMA_LOCAL_DIR = "./chroma_db/"
 COLLECTION_NAME  = "exl_case_studies"
 
-RESET = False  # set True to force a full rebuild
+RESET = True  # set True to force a full rebuild
 
 print("✅ Config loaded")
 print(f"   Case study dir : {CASE_STUDY_DIR}")
@@ -57,32 +57,25 @@ files = load_markdown_files(CASE_STUDY_DIR)
 
 
 # =============================================================================
-# Chunk by section
+# Prepare whole-document entries (strip "About EXL" boilerplate)
 # =============================================================================
-def chunk_by_section(filename: str, content: str) -> list:
-    chunks = []
+def strip_about_section(content: str) -> str:
+    """Remove the 'About EXL' boilerplate from the end of case studies."""
     sections = re.split(r'\n(?=## )', content)
-    for section in sections:
-        if not section.strip():
-            continue
-        first_line    = section.strip().split("\n")[0]
-        section_label = first_line.replace("##", "").strip().lower()
-        if "about" in section_label:
-            continue
-        chunks.append({
-            "filename": filename,
-            "section":  section_label,
-            "text":     section.strip(),
-        })
-    return chunks
+    filtered = [s for s in sections if "about exl" not in s.strip().split("\n")[0].lower()]
+    return "\n".join(filtered).strip()
 
 all_chunks = []
 for file in files:
-    chunks = chunk_by_section(file["filename"], file["content"])
-    all_chunks.extend(chunks)
-    print(f"   📄 {file['filename']} → {len(chunks)} chunks")
+    clean_text = strip_about_section(file["content"])
+    all_chunks.append({
+        "filename": file["filename"],
+        "section":  "full",
+        "text":     clean_text,
+    })
+    print(f"   📄 {file['filename']} → 1 whole document ({len(clean_text)} chars)")
 
-print(f"\n✅ Total chunks: {len(all_chunks)}")
+print(f"\n✅ Total documents: {len(all_chunks)}")
 
 
 # =============================================================================

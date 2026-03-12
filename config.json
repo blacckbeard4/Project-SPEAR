@@ -3,7 +3,7 @@
   "positions": "Vice President, Director, President",
   "num_rows": 20,
   "country": "United States",
-  "rebuild_db": false,
+  "rebuild_db": true,
   "sender_name": "Justin Varghese",
   "sender_title": "EXL Service",
   "scraper_deployment": "gpt-4.1-mini",

@@ -178,11 +178,10 @@ def retrieval_node(state: AgentState) -> dict:
 
     briefs = []
     for chunk in raw_chunks:
-        trimmed_text = chunk["text"][:1000].rsplit(" ", 1)[0]
         briefs.append({
             "filename":        chunk["filename"],
             "section":         chunk["section"],
-            "summary":         trimmed_text,
+            "summary":         chunk["text"],
             "relevance_score": chunk["relevance_score"],
         })
 
