@@ -347,47 +347,62 @@ Output strict JSON with these two keys only."""
 # Step 3: Serper Backfill (for leads where Apify returned no data)
 # =============================================================================
 def serper_backfill(name: str, company: str, job_title: str) -> dict:
-    """Run targeted Google searches to fill remaining gaps."""
+    """Run multiple targeted Google searches to enrich lead data."""
     if not SERPER_API_KEY:
         return {}
 
-    query = f'"{name}" "{company}" "{job_title}"'
-    payload = json.dumps({"q": query, "gl": gl_code, "num": 5})
     headers = {"X-API-KEY": SERPER_API_KEY, "Content-Type": "application/json"}
+    all_snippets = []
 
-    try:
-        resp = requests.post(
-            "https://google.serper.dev/search",
-            headers=headers,
-            data=payload,
-            timeout=15,
-        )
-        if resp.status_code != 200:
-            return {}
+    # Query 1: General person search
+    queries = [
+        f'"{name}" "{company}" "{job_title}"',
+        f'"{name}" "{company}" LinkedIn',
+        f'"{name}" "{company}" biography OR profile OR speaker OR alumni',
+    ]
 
-        snippets = " ".join(
-            r.get("snippet", "") for r in resp.json().get("organic", [])
-        )
+    for query in queries:
+        try:
+            resp = requests.post(
+                "https://google.serper.dev/search",
+                headers=headers,
+                data=json.dumps({"q": query, "gl": gl_code, "num": 5}),
+                timeout=15,
+            )
+            if resp.status_code == 200:
+                for r in resp.json().get("organic", []):
+                    snippet = r.get("snippet", "")
+                    title = r.get("title", "")
+                    if snippet:
+                        all_snippets.append(f"{title}: {snippet}")
+        except Exception:
+            continue
+        time.sleep(0.3)
 
-        if not snippets.strip():
-            return {}
+    if not all_snippets:
+        return {}
 
-        # Send to GPT for extraction
-        system_prompt = """You are an expert B2B data extraction tool.
+    snippets_text = "\n".join(all_snippets[:15])
+
+    # Send to GPT for extraction
+    system_prompt = """You are an expert B2B data extraction tool.
 Analyze the provided web search snippets about a professional and extract:
 - "Location": Their city or country.
-- "Department_or_Domain": Their business unit or domain.
-- "Focus_Area_or_Keywords": Specific projects, skills, or focus areas (3-5, comma-separated).
-- "Education": Any university or college mentioned.
+- "Department_or_Domain": Their business unit or domain (e.g., Investment Banking, Asset Management, Technology).
+- "Focus_Area_or_Keywords": Specific projects, technologies, skills, or focus areas (3-5, comma-separated). Look for mentions of specific initiatives, technologies, trading desks, product areas, etc.
+- "Education": Any university, college, or degree mentioned.
+- "Headline": Their professional headline or tagline if found.
+- "Skills": Any specific technical or professional skills mentioned (comma-separated).
 
 If any field is not found, output "Not specified". Do not invent information.
-Output strict JSON with these four keys only."""
+Output strict JSON with these six keys only."""
 
-        user_prompt = (
-            f"Person: {name}, {job_title} at {company}\n\n"
-            f"Web search snippets:\n{snippets[:2000]}"
-        )
+    user_prompt = (
+        f"Person: {name}, {job_title} at {company}\n\n"
+        f"Web search snippets:\n{snippets_text[:3000]}"
+    )
 
+    try:
         response = gpt_client.chat.completions.create(
             model=DEPLOYMENT_NAME,
             response_format={"type": "json_object"},
@@ -402,6 +417,8 @@ Output strict JSON with these four keys only."""
             "department": result.get("Department_or_Domain", "Not specified"),
             "focus_keywords": result.get("Focus_Area_or_Keywords", "Not specified"),
             "education": result.get("Education", "Not specified"),
+            "headline": result.get("Headline", "Not specified"),
+            "skills": result.get("Skills", "Not specified"),
         }
 
     except Exception as e:
@@ -458,6 +475,20 @@ def run_enrichment():
     # Track enrichment stats
     stats = {"apify_success": 0, "serper_backfill": 0, "unchanged": 0}
 
+    # Apify health check — test with first lead, skip all if it fails
+    apify_available = False
+    if APIFY_API_TOKEN and len(df) > 0:
+        first_url = df.iloc[0].get("LinkedIn URL", "")
+        if first_url:
+            print("\n🔍 Testing Apify availability...")
+            test_profile = enrich_via_apify(first_url)
+            if test_profile:
+                apify_available = True
+                print("   ✅ Apify is working")
+            else:
+                print("   ⚠️  Apify returned no data — skipping Apify for all leads")
+                print("   ℹ️  Will use enhanced Serper + GPT backfill instead")
+
     # Process each lead
     for idx in range(len(df)):
         row = df.iloc[idx]
@@ -471,8 +502,8 @@ def run_enrichment():
         apify_fields = {}
         gpt_enriched = {}
 
-        # --- Apify enrichment ---
-        if linkedin_url:
+        # --- Apify enrichment (only if health check passed) ---
+        if apify_available and linkedin_url and idx > 0:  # idx 0 already tested
             profile = enrich_via_apify(linkedin_url)
             if profile:
                 apify_fields = extract_fields_from_apify(profile)
@@ -491,18 +522,29 @@ def run_enrichment():
                     )
             else:
                 print(f"   ⚠️  Apify: no data returned")
+        elif apify_available and idx == 0 and test_profile:
+            # Use the health check result for the first lead
+            apify_fields = extract_fields_from_apify(test_profile)
+            print(f"   ✅ Apify: using health check data")
+            stats["apify_success"] += 1
+            if apify_fields.get("summary") or apify_fields.get("skills"):
+                gpt_enriched = extract_department_and_keywords(
+                    name=name, job_title=job_title,
+                    headline=apify_fields.get("headline", ""),
+                    summary=apify_fields.get("summary", ""),
+                    skills=apify_fields.get("skills", ""),
+                    current_exp_desc=apify_fields.get("current_exp_desc", ""),
+                )
 
-        # --- Serper backfill for missing fields ---
+        # --- Always run Serper backfill for any missing fields ---
         serper_fields = {}
-        needs_backfill = (
-            is_missing(apify_fields.get("location", ""))
-            and is_missing(row.get("Location", ""))
-        ) or (
-            is_missing(gpt_enriched.get("department", ""))
-            and is_missing(row.get("Department", ""))
-        )
+        has_gaps = any([
+            is_missing(apify_fields.get("location", "")) and is_missing(row.get("Location", "")),
+            is_missing(gpt_enriched.get("department", "")) and is_missing(row.get("Department", "")),
+            is_missing(gpt_enriched.get("focus_keywords", "")) and is_missing(row.get("Focus Keywords", "")),
+        ])
 
-        if needs_backfill:
+        if has_gaps:
             print(f"   🔍 Running Serper backfill...")
             serper_fields = serper_backfill(name, COMPANY_NAME, job_title)
             if serper_fields:
@@ -543,6 +585,14 @@ def run_enrichment():
             df.at[df.index[idx], "Experience Summary"] = apify_fields.get("experience_summary", "")
             df.at[df.index[idx], "Connections"] = apify_fields.get("connections", "")
             df.at[df.index[idx], "Followers"] = apify_fields.get("followers", "")
+        elif serper_fields:
+            # Store Serper-derived headline and skills when Apify unavailable
+            headline_val = serper_fields.get("headline", "")
+            skills_val = serper_fields.get("skills", "")
+            if headline_val and not is_missing(headline_val):
+                df.at[df.index[idx], "Headline"] = headline_val
+            if skills_val and not is_missing(skills_val):
+                df.at[df.index[idx], "Skills"] = skills_val
 
         if not apify_fields and not serper_fields:
             stats["unchanged"] += 1
