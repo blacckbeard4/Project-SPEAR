@@ -168,6 +168,8 @@ def retrieval_node(state: AgentState) -> dict:
         lead.get("Job Title", ""),
         lead.get("Department", ""),
         lead.get("Focus Keywords", ""),
+        lead.get("Industry", ""),
+        str(lead.get("Skills", ""))[:100],
     ]
     query = " ".join(p for p in query_parts if p and p.lower() != "not specified")
 
@@ -204,7 +206,11 @@ def strategy_node(state: AgentState) -> dict:
         f"Case Study: {b['filename']}\nSection: {b['section']}\nContent: {b['summary']}"
         for b in briefs
     ])
-    lead_text = "\n".join([f"{k}: {v}" for k, v in lead.items()])
+    # Include all enriched fields in lead context
+    lead_text = "\n".join([
+        f"{k}: {v}" for k, v in lead.items()
+        if str(v).strip().lower() not in ("not specified", "nan", "", "none") and pd.notna(v)
+    ])
     seniority_guidance = get_seniority_guidance(lead.get("Job Title", ""))
 
     system_prompt = f"""You are a senior B2B marketing strategist at EXL Service.

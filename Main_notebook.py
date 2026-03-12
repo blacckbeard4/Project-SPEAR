@@ -43,9 +43,26 @@ subprocess.run(
     check=True,
 )
 
-leads_df       = pd.read_csv("./outputs/leads_final.csv")
-scraper_result = f"{len(leads_df)} leads saved"
+leads_df       = pd.read_csv("./outputs/leads_raw.csv")
+scraper_result = f"{len(leads_df)} leads scraped"
 print(f"\n✅ Scraper finished — {scraper_result}")
+
+
+# =============================================================================
+# STEP 1.5 — Lead Enrichment
+# =============================================================================
+print("\n" + "=" * 60)
+print("STEP 1.5 — Lead Enrichment")
+print("=" * 60)
+
+subprocess.run(
+    [sys.executable, str(HERE / "Lead_Enricher.py")],
+    check=True,
+)
+
+enriched_df      = pd.read_csv("./outputs/leads_final.csv")
+enrichment_result = f"{len(enriched_df)} leads enriched"
+print(f"\n✅ Enricher finished — {enrichment_result}")
 
 
 # =============================================================================

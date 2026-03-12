@@ -7,3 +7,4 @@ langgraph
 chromadb
 tiktoken
 python-dotenv
+apify-client

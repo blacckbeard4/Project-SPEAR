@@ -37,7 +37,7 @@ gl_code          = country_settings["gl"]
 positions        = [pos.strip() for pos in POSITIONS_INPUT.split(",")]
 
 os.makedirs("./outputs", exist_ok=True)
-OUTPUT_CSV = "./outputs/leads_final.csv"
+OUTPUT_CSV = "./outputs/leads_raw.csv"
 
 print("✅ Config loaded")
 print(f"   Company  : {COMPANY_NAME}")

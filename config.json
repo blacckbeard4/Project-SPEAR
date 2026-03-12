@@ -10,5 +10,6 @@
   "strategy_deployment": "gpt-4.1",
   "drafter_deployment": "gpt-4.1",
   "judge_deployment": "gpt-4.1",
-  "retrieval_n_results": 3
+  "retrieval_n_results": 3,
+  "enrichment_enabled": true
 }
