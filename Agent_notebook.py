@@ -43,13 +43,14 @@ AZURE_GPT_DRAFTER_DEPLOYMENT  = _cfg.get("drafter_deployment", "gpt-4.1")
 AZURE_GPT_JUDGE_DEPLOYMENT    = _cfg.get("judge_deployment", "gpt-4.1")
 
 SENIORITY_TIERS = {
-    "executive vice president": "Focus on enterprise strategy, operating models, enterprise-wide impact, transformation, and C-suite alignment. Use 'Dear [First Name],' instead of 'Hi [First Name],' for a more formal tone.",
-    "senior vice president": "Focus on enterprise strategy, operating models, enterprise-wide impact, transformation, and C-suite alignment. Use 'Dear [First Name],' instead of 'Hi [First Name],' for a more formal tone.",
-    "managing director": "Focus on enterprise strategy, operating models, enterprise-wide impact, P&L impact, and market positioning. Use 'Dear [First Name],' instead of 'Hi [First Name],' for a more formal tone.",
-    "executive director": "Focus on strategy, business outcomes, scale, ROI, and cross-functional impact.",
-    "senior director": "Focus on execution, delivery, operational outcomes, process improvement, and measurable efficiency gains.",
-    "vice president": "Focus on strategy, business outcomes, scale, ROI, and cross-functional impact.",
-    "director": "Focus on execution, delivery, operational outcomes, process improvement, and measurable efficiency gains.",
+    "president": "Frame around enterprise-wide business outcomes: revenue impact, market positioning, and strategic transformation. PREFER dollar amounts and top-line growth metrics IF the case study contains them — otherwise use qualitative enterprise outcomes. Tone: peer-to-peer, strategic.",
+    "executive vice president": "Frame around enterprise-wide business outcomes: revenue impact, market positioning, and strategic transformation. PREFER dollar amounts and top-line growth metrics IF the case study contains them — otherwise use qualitative enterprise outcomes. Tone: peer-to-peer, strategic.",
+    "senior vice president": "Frame around enterprise-wide business outcomes: revenue impact, market positioning, and strategic transformation. PREFER dollar amounts and top-line growth metrics IF the case study contains them — otherwise use qualitative enterprise outcomes. Tone: peer-to-peer, strategic.",
+    "managing director": "Frame around P&L impact, revenue influence, and market differentiation. PREFER dollar figures and enterprise-scale outcomes IF the case study contains them — otherwise use qualitative outcomes like 'improved data quality' or 'cleared backlog.' Never invent dollar amounts. Tone: consultative, strategic.",
+    "executive director": "Frame around scalable business outcomes and cross-functional ROI. PREFER percentage improvements and efficiency gains IF the case study contains them — otherwise describe outcomes qualitatively. Tone: consultative.",
+    "senior director": "Frame around operational execution and measurable delivery. PREFER time savings, error rate improvements, and FTE metrics IF the case study contains them — otherwise describe outcomes qualitatively. Tone: results-oriented.",
+    "vice president": "Frame around operational efficiency, time-to-value, and risk reduction. PREFER percentage improvements, time savings, and process automation metrics IF the case study contains them — otherwise describe outcomes qualitatively. Tone: peer-to-peer, practical.",
+    "director": "Frame around hands-on operational metrics: FTE consolidation, cycle time reduction, error rate improvements, and backlog clearance. Only cite numbers that appear in the case study. Tone: results-oriented, practical.",
 }
 
 
