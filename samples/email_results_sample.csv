@@ -1,16 +1,32 @@
 Name,Job Title,LinkedIn URL,email_draft,judge_score,judge_feedback,iterations,needs_review
-Chris Althoff,Vice President,https://www.linkedin.com/in/chris-althoff-22a2104a,"Subject: Peer benchmarking on credit risk analytics—worth a quick discussion?
-
-Hi Chris,
-
-As a New York-based VP overseeing credit trading, your team faces relentless pressure to accelerate digital transformation and stay ahead of fast-moving competitors. In our benchmarking study, leaders in credit risk analytics outperformed laggards by deploying machine learning models—specifically gradient boosting—contributing 10–15% uplift against traditional logistic regression approaches. That kind of di...",7.0,"Personalisation is above average—the opener references the lead’s role, department, and local context. The case study relevance is strong, with the correct metric ('gradient boosting—contributing 10–15% uplift against traditional logistic regression approaches') cited word-for-word and tied to the p...",2,False
-Aman Khanna,Vice President,https://www.linkedin.com/in/aman-khanna-0090ab2,"Subject: Driving Enterprise-Wide Revenue Growth in Global Corporate Banking
+Aman Khanna,Vice President,https://www.linkedin.com/in/aman-khanna-0090ab2,"Subject: Unlocking $80M+ Value Through Data Ecosystem Modernization
 
 Hi Aman,
 
-Managing data complexity across global markets while keeping operational costs in check is a real pain point for every leader helming cross-market client relationships at your scale. In our work with a global payments provider, EXL and Google Cloud helped unlock an $80M revenue impact through large-scale data modernization and workflow automation—positioning them for faster product launches, freed-up IT resour...",8.0,"Approved. Strong specificity about Aman's role, referencing cross-market client relationships and JP Morgan's digital scale. The email uses the verbatim $80M revenue impact metric. Tone is peer-to-peer, but some phrasing (""compare notes on what triggered scalable results"") is slightly less natural, ...",1,False
-Christopher Lee,Vice President,https://www.linkedin.com/in/christopheryklee,"Subject: Elevating Private Client Advisory with Next-Level Data Strategy
+Competing in global corporate banking from New York means constantly balancing regulatory demands with driving scalable innovation—especially when legacy data systems slow down growth. In our work with a leading global payments provider, we helped them unlock $80M in revenue influence by modernizing their end-to-end data ecosystem through cloud migration and streamlined workflows.
 
-Hi Christopher,
+Given your experience orchestrating ...",7.5,"Personalisation is solid, referencing New York and balancing regulatory demands with innovation in global corporate banking, connecting to the lead's department and role. The case study relevance is high: $80M in revenue influence is cited verbatim from the excerpt, and the challenge/solution makes ...",1,False
+Chris Althoff,Vice President,https://www.linkedin.com/in/chris-althoff-22a2104a,"Subject: Benchmarking Credit Risk—Driving Model Uplift for Top-Line Results
 
-Delivering an elite advisory experience for high-net-worth clients in New York puts immense pressure on both data quality and seamless CRM integration. In our work with a leading asset manager, we helped overhaul fragmented advisor and client data, clearing backlogs by over two months and ensuring on-time CRM migration—with tangible improvements in how front-line advisors leveraged data for relationship bu...",8.0,"Approved. Personalisation is strong with focus on high-net-worth clients, CRM integration, and location-specific reference. Case study metric is accurate: 'clearing backlogs by over two months' and 'on-time CRM migration' are verbatim from 'Dedicated data stewards team helped the client to clear up ...",1,False
+Hi Chris,
+
+Credit trading at a powerhouse like JPMorgan Chase is under constant pressure to sharpen credit risk analytics—especially as nimble fintechs push the envelope in digital disruption. In our credit risk benchmarking work, we identified mature banks leveraging GBM model implementations for existing customer management, which contributed 10–15% uplift against traditional logistic regression models. That model per...",6.5,"Personalisation is decent, referencing credit trading at JPMorgan Chase and tying it to fintech-driven digital disruption. Case study relevance is strong, and the 10–15% uplift for GBM vs. logistic regression is accurately cited. Naturalness is somewhat affected by buzzword-heavy phrasing and 'top-l...",3,True
+Shreya Chary,Vice President,https://www.linkedin.com/in/shreyachary,"Subject: Precision Targeting for Measurable Growth in Private Banking
+
+Hi Shreya,
+
+Delivering differentiated, client-centric experiences in New York private banking means staying a step ahead—especially as competition for high-value clients intensifies. In our work with a leading asset manager, we enabled their executive team to unlock $9B+ in new event-driven inflows and $300M+ in digital campaign net flows by engineering advanced, data-driven campaign optimization. The scale of impact was driv...",8.0,"Personalisation is good: references client-centric New York banking and leverages keywords around financial expertise/strategic insight, but lacks a specific observation about Shreya's unique work or department operations for a perfect score. The case study relevance is strong, uses measurable outco...",1,False
+Viraj Patel,"Managing Director, Investment Banking",https://www.linkedin.com/in/virajkpatel,"Subject: Solving Data Attribution Challenges in Investment Banking
+
+Hi Viraj,
+
+Strategic oversight in U.S. investment banking means grappling with layers of complex advisor and securities data—keeping attribution tight and actionable is the foundation of your P&L outcomes. In our work with a leading asset manager on master data management, we cleared over two months of critical backlog and raised data quality standards, which led to sharper decision-making and improved CRM user satisfaction.
+
+Th...",8.0,"Approved. Good tie-in to the lead's department (investment banking) and mention of advisor/securities data, referencing real observed challenges. The case study metrics (e.g., 'cleared over two months of critical backlog and raised data quality standards, which led to sharper decision-making and imp...",1,False
+Molly Ramsey,"Vice President, Investment Banking",https://www.linkedin.com/in/molly-ramsey-4a824710b,"Subject: Driving Deal Flow & Revenue Growth Through Advanced Campaign Optimization
+
+Hi Molly,
+
+Your team’s ability to drive successful M&A and capital markets outcomes at J.P. Morgan depends on uncovering new revenue streams and staying ahead in investor engagement—a challenge I see leaders like you prioritizing in this market.
+
+Our recent work with an asset manager—helping them achieve over $9B in net flow uplift and 40% higher engagement through advanced analytics and machine learning—showed j...",8.0,"Personalisation is above generic level since it references M&A, capital markets, and investor engagement, which are relevant for Molly's department and focus. Case study relevance is strong—metrics (""$9B in net flow uplift"", ""40% higher engagement"") match the provided content, and the scenario ties ...",1,False
