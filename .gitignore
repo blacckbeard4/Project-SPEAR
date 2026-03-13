@@ -1,6 +1,16 @@
+# Secrets
 .env
+
+# Runtime artifacts
 chroma_db/
 outputs/
-.DS_Store
 __pycache__/
 *.pyc
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

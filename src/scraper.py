@@ -6,7 +6,11 @@ import pandas as pd
 from openai import AzureOpenAI
 from dotenv import load_dotenv
 
+from pathlib import Path
+
 load_dotenv()
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # =============================================================================
 # Config & Credentials
@@ -15,7 +19,7 @@ AZURE_API_KEY   = os.getenv("AZURE_OPENAI_KEY")
 SERPER_API_KEY  = os.getenv("SERPER_API_KEY")
 ENDPOINT        = "https://exl-services-resource.cognitiveservices.azure.com/"
 # --- Search parameters (loaded from config.json) ---
-with open("./config.json") as _f:
+with open(PROJECT_ROOT / "config.json") as _f:
     _cfg = json.load(_f)
 
 DEPLOYMENT_NAME  = _cfg.get("scraper_deployment", "gpt-4.1-mini")
@@ -36,8 +40,8 @@ subdomain        = country_settings["subdomain"]
 gl_code          = country_settings["gl"]
 positions        = [pos.strip() for pos in POSITIONS_INPUT.split(",")]
 
-os.makedirs("./outputs", exist_ok=True)
-OUTPUT_CSV = "./outputs/leads_raw.csv"
+os.makedirs(PROJECT_ROOT / "outputs", exist_ok=True)
+OUTPUT_CSV = str(PROJECT_ROOT / "outputs/leads_raw.csv")
 
 print("✅ Config loaded")
 print(f"   Company  : {COMPANY_NAME}")

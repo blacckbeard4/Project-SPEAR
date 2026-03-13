@@ -1,0 +1,16 @@
+Name,Job Title,LinkedIn URL,email_draft,judge_score,judge_feedback,iterations,needs_review
+Chris Althoff,Vice President,https://www.linkedin.com/in/chris-althoff-22a2104a,"Subject: Peer benchmarking on credit risk analytics—worth a quick discussion?
+
+Hi Chris,
+
+As a New York-based VP overseeing credit trading, your team faces relentless pressure to accelerate digital transformation and stay ahead of fast-moving competitors. In our benchmarking study, leaders in credit risk analytics outperformed laggards by deploying machine learning models—specifically gradient boosting—contributing 10–15% uplift against traditional logistic regression approaches. That kind of di...",7.0,"Personalisation is above average—the opener references the lead’s role, department, and local context. The case study relevance is strong, with the correct metric ('gradient boosting—contributing 10–15% uplift against traditional logistic regression approaches') cited word-for-word and tied to the p...",2,False
+Aman Khanna,Vice President,https://www.linkedin.com/in/aman-khanna-0090ab2,"Subject: Driving Enterprise-Wide Revenue Growth in Global Corporate Banking
+
+Hi Aman,
+
+Managing data complexity across global markets while keeping operational costs in check is a real pain point for every leader helming cross-market client relationships at your scale. In our work with a global payments provider, EXL and Google Cloud helped unlock an $80M revenue impact through large-scale data modernization and workflow automation—positioning them for faster product launches, freed-up IT resour...",8.0,"Approved. Strong specificity about Aman's role, referencing cross-market client relationships and JP Morgan's digital scale. The email uses the verbatim $80M revenue impact metric. Tone is peer-to-peer, but some phrasing (""compare notes on what triggered scalable results"") is slightly less natural, ...",1,False
+Christopher Lee,Vice President,https://www.linkedin.com/in/christopheryklee,"Subject: Elevating Private Client Advisory with Next-Level Data Strategy
+
+Hi Christopher,
+
+Delivering an elite advisory experience for high-net-worth clients in New York puts immense pressure on both data quality and seamless CRM integration. In our work with a leading asset manager, we helped overhaul fragmented advisor and client data, clearing backlogs by over two months and ensuring on-time CRM migration—with tangible improvements in how front-line advisors leveraged data for relationship bu...",8.0,"Approved. Personalisation is strong with focus on high-net-worth clients, CRM integration, and location-specific reference. Case study metric is accurate: 'clearing backlogs by over two months' and 'on-time CRM migration' are verbatim from 'Dedicated data stewards team helped the client to clear up ...",1,False

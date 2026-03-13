@@ -47,7 +47,7 @@ graph TD;
     F -->|Score < 7| E
 ```
 
-**Orchestrator:** `Main_notebook.py` runs all 3 stages sequentially via subprocess.
+**Orchestrator:** `src/main.py` runs all stages sequentially via subprocess.
 **Agentic loop:** Built with **LangGraph** — the Judge node conditionally routes back to the Drafter until quality threshold is met or max iterations hit.
 
 ---
@@ -100,17 +100,22 @@ graph TD;
 
 ```
 Project_spear/
-├── Main_notebook.py          # Orchestrator — runs the full pipeline
-├── Web_Scrapper.py           # Stage 1: Scrape + enrich LinkedIn leads
-├── Database_creation.py      # Stage 2: Embed case studies into ChromaDB
-├── Agent_notebook.py         # Stage 3: LangGraph email agent pipeline
+├── src/
+│   ├── main.py               # Orchestrator — runs the full pipeline
+│   ├── scraper.py            # Stage 1: Scrape LinkedIn leads via Serper
+│   ├── enricher.py           # Stage 2: Enrich leads (Apify + Serper backfill)
+│   ├── database.py           # Stage 3: Embed case studies into ChromaDB
+│   └── agent.py              # Stage 4: LangGraph agentic email generation
+├── data/
+│   └── case_studies/         # 9 EXL case study markdown files
+├── samples/                  # Example pipeline outputs (see below)
+│   ├── leads_raw_sample.csv
+│   ├── leads_final_sample.csv
+│   └── email_results_sample.csv
+├── assets/                   # README images
+├── docs/                     # Presentation deck
 ├── config.json               # Run parameters (company, roles, models)
 ├── requirements.txt          # Python dependencies
-├── Raw_casestudies/          # 9 EXL case study markdown files
-│   ├── exl_quantitative_trading_strategies.md
-│   ├── exl_credit_risk_leaders_vs_laggards.md
-│   ├── exl_master_data_management.md
-│   └── ... (6 more)
 ├── chroma_db/                # Generated vector database (gitignored)
 ├── outputs/                  # Generated CSVs (gitignored)
 └── .env                      # API keys (gitignored)
@@ -133,8 +138,20 @@ SERPER_API_KEY=your_key
 
 Edit `config.json` to set your target company, roles, and country, then run:
 ```bash
-python Main_notebook.py
+python src/main.py
 ```
+
+---
+
+## Sample Outputs
+
+The `samples/` directory contains example pipeline outputs so you can see what the system produces without running it:
+
+| File | Description |
+|------|-------------|
+| `samples/leads_raw_sample.csv` | Raw scraped leads with name, title, department, and LinkedIn URL |
+| `samples/leads_final_sample.csv` | Enriched leads with headline, skills, and backfilled fields |
+| `samples/email_results_sample.csv` | Generated emails with judge scores, feedback, and iteration counts |
 
 ---
 

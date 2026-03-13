@@ -17,8 +17,10 @@ AZURE_OPENAI_ENDPOINT    = "https://exl-services-resource.cognitiveservices.azur
 AZURE_OPENAI_DEPLOYMENT  = "text-embedding-ada-002"
 AZURE_OPENAI_API_VERSION = "2023-05-15"
 
-CASE_STUDY_DIR   = "./Raw_casestudies/"
-CHROMA_LOCAL_DIR = "./chroma_db/"
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+CASE_STUDY_DIR   = str(PROJECT_ROOT / "data/case_studies/")
+CHROMA_LOCAL_DIR = str(PROJECT_ROOT / "chroma_db/")
 COLLECTION_NAME  = "exl_case_studies"
 
 RESET = True  # set True to force a full rebuild

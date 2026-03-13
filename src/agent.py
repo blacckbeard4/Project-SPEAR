@@ -10,7 +10,11 @@ from langchain_openai import AzureOpenAIEmbeddings
 from langgraph.graph import StateGraph, END
 from dotenv import load_dotenv
 
+from pathlib import Path
+
 load_dotenv()
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # =============================================================================
 # Config & Credentials
@@ -24,9 +28,9 @@ AZURE_GPT_API_VERSION = "2024-12-01-preview"
 
 AZURE_ENDPOINT = "https://exl-services-resource.cognitiveservices.azure.com/"
 
-CHROMA_LOCAL_DIR = "./chroma_db/"
-LEADS_PATH       = "./outputs/leads_final.csv"
-OUTPUT_PATH      = "./outputs/email_results.csv"
+CHROMA_LOCAL_DIR = str(PROJECT_ROOT / "chroma_db/")
+LEADS_PATH       = str(PROJECT_ROOT / "outputs/leads_final.csv")
+OUTPUT_PATH      = str(PROJECT_ROOT / "outputs/email_results.csv")
 COLLECTION_NAME  = "exl_case_studies"
 
 SCORE_THRESHOLD = 7.0
@@ -34,7 +38,7 @@ MAX_ITERATIONS  = 3
 MIN_SEND_SCORE  = 7.0
 
 # --- Config from config.json ---
-with open("./config.json") as _f:
+with open(PROJECT_ROOT / "config.json") as _f:
     _cfg = json.load(_f)
 SENDER_NAME                = _cfg.get("sender_name", "Justin Varghese")
 SENDER_TITLE               = _cfg.get("sender_title", "EXL Service")
@@ -559,6 +563,6 @@ if not results_df.empty:
         print(sample["email_draft"])
         print("=" * 60)
 
-os.makedirs("./outputs", exist_ok=True)
+os.makedirs(PROJECT_ROOT / "outputs", exist_ok=True)
 results_df.to_csv(OUTPUT_PATH, index=False)
 print(f"\n✅ Results saved to {OUTPUT_PATH}")

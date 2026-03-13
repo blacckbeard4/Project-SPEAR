@@ -7,7 +7,11 @@ import pandas as pd
 from openai import AzureOpenAI
 from dotenv import load_dotenv
 
+from pathlib import Path
+
 load_dotenv()
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # =============================================================================
 # Config & Credentials
@@ -17,7 +21,7 @@ APIFY_API_TOKEN  = os.getenv("APIFY_API_TOKEN")
 SERPER_API_KEY   = os.getenv("SERPER_API_KEY")
 ENDPOINT         = "https://exl-services-resource.cognitiveservices.azure.com/"
 
-with open("./config.json") as _f:
+with open(PROJECT_ROOT / "config.json") as _f:
     _cfg = json.load(_f)
 
 DEPLOYMENT_NAME    = _cfg.get("scraper_deployment", "gpt-4.1-mini")
@@ -32,8 +36,8 @@ COUNTRY_MAP = {
 }
 gl_code = COUNTRY_MAP.get(SELECTED_COUNTRY, "us")
 
-INPUT_CSV  = "./outputs/leads_raw.csv"
-OUTPUT_CSV = "./outputs/leads_final.csv"
+INPUT_CSV  = str(PROJECT_ROOT / "outputs/leads_raw.csv")
+OUTPUT_CSV = str(PROJECT_ROOT / "outputs/leads_final.csv")
 
 # Apify actor for LinkedIn profile scraping (no cookies needed)
 # Format: username~actorName (tilde separator for Apify API)
@@ -451,7 +455,7 @@ def run_enrichment():
     # Load leads
     if not os.path.exists(INPUT_CSV):
         # Fallback: try leads_final.csv if leads_raw.csv doesn't exist yet
-        fallback = "./outputs/leads_final.csv"
+        fallback = str(PROJECT_ROOT / "outputs/leads_final.csv")
         if os.path.exists(fallback):
             print(f"   ℹ️  {INPUT_CSV} not found, using {fallback}")
             df = pd.read_csv(fallback)
@@ -598,7 +602,7 @@ def run_enrichment():
             stats["unchanged"] += 1
 
     # --- Save enriched output ---
-    os.makedirs("./outputs", exist_ok=True)
+    os.makedirs(PROJECT_ROOT / "outputs", exist_ok=True)
     df.to_csv(OUTPUT_CSV, index=False)
 
     # --- Print enrichment report ---
